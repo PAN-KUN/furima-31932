@@ -5,8 +5,8 @@
 | Column                | Type   | Options     |
 | --------------------- | ------ | ----------- |
 | nickname              | string | null: false |
-| email                 | string | null: false, default: "" |
-| password              | string | null: false, default: "" |
+| email                 | string | null: false, unique_key: true, default: "" |
+| encrypted_password    | string | null: false, default: "" |
 | first_name            | string | null: false |
 | last_name             | string | null: false |
 | first_name_kana       | string | null: false |
@@ -17,15 +17,13 @@
 
 - has_many :items
 - has_many :orders
-- has_many :pay_forms
 
 ## items テーブル
 
 | Column                 | Type   | Options     |
 | ---------------------- | ------ | ----------- |
-| seller_user_id         | references | null: false, foreign_key: true |
+| user_id                | references | null: false, foreign_key: true |
 | name                   | string | null: false |
-| image                  | string | null: false |
 | info                   | text   | null: false |
 | category_id            | integer | null: false |
 | sales_status_id        | integer | null: false |
@@ -37,14 +35,14 @@
 ### Association
 
 - belongs_to :user
-- belongs_to :order
+- has_one :order
 
 ## orders テーブル
 
 | Column   | Type       | Options                    |
 | -------- | ---------- | -------------------------- |
-| buyer_user_id  | references | null: false, foreign: true |
-| item_id  | references | null: false, foreign: true |
+| user_id  | references | null: false, foreign_key: true |
+| item_id  | references | null: false, foreign_key: true |
 
 ### Association
 
@@ -56,7 +54,8 @@
 
 | Column         | Type       | Options     |
 | -------------- | ---------- | ----------- |
-| user_id        | references | null: false, foreign: true |
+| user_id        | references | null: false, foreign_key: true |
+| orderid        | references | null: false, foreign_key: true |
 | postal_code    | string     | null: false |
 | prefecture_id  | integer    | null: false |
 | city           | string     | null: false |
@@ -66,5 +65,4 @@
 
 ### Association
 
-- belongs_to :user
 - belongs_to :order
