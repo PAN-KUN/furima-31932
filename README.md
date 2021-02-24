@@ -48,7 +48,7 @@
 
 - belongs_to :user
 - belongs_to :order
-- has_one :pay_forms
+- has_one :pay_form
 
 ## pay_forms テーブル
 
