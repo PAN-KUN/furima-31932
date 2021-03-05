@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :user
+  has_one_attached :image
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :category
@@ -21,7 +22,7 @@ class Item < ApplicationRecord
     end
 
     with_options numericality: { only_integer: true } do
-      validates :price, inclusion: { in: 300..999999999}
+      validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
     end
   end
 end
