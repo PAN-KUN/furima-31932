@@ -50,7 +50,7 @@
 - belongs_to :order
 - has_one :pay_form
 
-## pay_forms テーブル
+## address テーブル
 
 | Column         | Type       | Options     |
 | -------------- | ---------- | ----------- |
