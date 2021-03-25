@@ -53,8 +53,13 @@ RSpec.describe ItemOrder, type: :model do
         @item_order.valid?
         expect(@item_order.errors.full_messages).to include('Phone number is invalid')
       end
-      it 'phone_numberは12桁未満だと登録できない' do
-        @item_order.phone_number = '0120444444'
+      it 'phone_numberは12桁以上だと登録できない' do
+        @item_order.phone_number = '012044444400'
+        @item_order.valid?
+        expect(@item_order.errors.full_messages).to include('Phone number is invalid')
+      end
+      it 'phone_numberは英数混合だと登録できない' do
+        @item_order.phone_number = 'a0120222222'
         @item_order.valid?
         expect(@item_order.errors.full_messages).to include('Phone number is invalid')
       end
