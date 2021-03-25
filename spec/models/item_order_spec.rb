@@ -13,6 +13,16 @@ RSpec.describe ItemOrder, type: :model do
     end
 
     context '商品購入がうまくいかないとき' do
+      it 'user_idが空だと登録できない' do
+        @item_order.user_id = ''
+        @item_order.valid?
+        expect(@item_order.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが空だと登録できない' do
+        @item_order.item_id = ''
+        @item_order.valid?
+        expect(@item_order.errors.full_messages).to include("Item can't be blank")
+      end
       it 'postal_codeが空だと登録できない' do
         @item_order.postal_code = ''
         @item_order.valid?
