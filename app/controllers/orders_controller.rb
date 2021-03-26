@@ -3,25 +3,19 @@ class OrdersController < ApplicationController
   before_action :set_item, only: [:index, :create]
 
   def index
-    if current_user.id == @item.user_id || @item.order.present?
-      redirect_to root_path
-    else
-      @item_order = ItemOrder.new
-    end
+    move_to_root
+    @item_order = ItemOrder.new
   end
 
   def create
-    if current_user.id == @item.user_id || @item.order.preswnt?
+    move_to_root
+    @item_order = ItemOrder.new(order_params)
+    if @item_order.valid?
+      pay_item
+      @item_order.save
       redirect_to root_path
     else
-      @item_order = ItemOrder.new(order_params)
-      if @item_order.valid?
-        pay_item
-        @item_order.save
-        redirect_to root_path
-      else
-        render :index
-      end
+      render :index
     end
   end
 
@@ -32,6 +26,12 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:item_order).permit(:postal_code, :prefecture_id, :city, :house_number, :building, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token] )
+  end
+
+  def move_to_root
+    if current_user.id == @item.user_id || @item.order.present?
+      redirect_to root_path
+    end
   end
 
   def pay_item
