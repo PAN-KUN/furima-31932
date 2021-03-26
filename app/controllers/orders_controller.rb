@@ -1,14 +1,13 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :set_item, only: [:index, :create]
+  before_action :move_to_root, only: [:index, :create]
 
   def index
-    move_to_root
     @item_order = ItemOrder.new
   end
 
   def create
-    move_to_root
     @item_order = ItemOrder.new(order_params)
     if @item_order.valid?
       pay_item
