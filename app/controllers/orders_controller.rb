@@ -11,13 +11,17 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @item_order = ItemOrder.new(order_params)
-    if @item_order.valid?
-      pay_item
-      @item_order.save
+    if current_user.id == @item.user_id || @item.order.preswnt?
       redirect_to root_path
     else
-      render :index
+      @item_order = ItemOrder.new(order_params)
+      if @item_order.valid?
+        pay_item
+        @item_order.save
+        redirect_to root_path
+      else
+        render :index
+      end
     end
   end
 
