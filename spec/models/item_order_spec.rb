@@ -3,9 +3,7 @@ require 'rails_helper'
 RSpec.describe ItemOrder, type: :model do
   before do
     @item = FactoryBot.build_stubbed(:item)
-    @item_order = FactoryBot.build(:item_order)
-    @item_order.user_id = @item.user_id
-    @item_order.item_id = @item.id
+    @item_order = FactoryBot.build(:item_order, user_id: @item.user_id , item_id: @item.id)
   end
 
   describe '商品購入機能' do
